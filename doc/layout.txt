@@ -1,0 +1,288 @@
+0x0         : magic
+                - 0xA5 > EEPROM
+                - 0xAA > EEPROM MAC only
+                - 0xF3 > OTP1
+                - 0xF7 > OTP2
+0x01-0x06   : mac
+
+0x07-0xa        :
+                0x0|0 > don't set (use default)
+                0x1|1 > set
+                - 0:0 Subsystem Vendor ID Set
+                - 1:1 Subsystem ID Set
+                - 2:2 AUX current
+                - 3:3 PME Support
+                - 4:4 Immediate Readiness on Return to D0 [HIDDEN]
+                - 5:5 No_Soft_Reset [HIDDEN]
+                - 6:6 MSI Multiple Message Capable [HIDDEN]
+                - 7:7 Endpoint L0s Acceptable Latency [HIDDEN]
+                - 8:8 Endpoint L1 Acceptable Latency [HIDDEN]
+                - 9:9 L0s Exit Latency [HIDDEN]
+                - 10:10 L1 Exit Latency [HIDDEN]
+                - 11:11 Clock Power Management (Advanced)
+                - 12:12 RESERVED
+                - 13:13 RESERVED
+                - 14:14 Slot Clock Configuration [HIDDEN]
+                - 15:15 LTR Mechanism Support
+                - 16:16 OBFF Support (Advanced)
+                - 17:17 MSI-X Table Size [HIDDEN]
+                - 18:18 PCI-PM L1.2 Support (Advanced)
+                - 19:19 PCI-PM L1.1 Support (Advanced)
+                - 20:20 ASPM L1.2 (Advanced)
+                - 21:21 ASPM L1.1 (Advanced)
+                - 22:22 L1 PM Substates Supported (Advanced)
+                - 2:2 ASPM L0s Entrance Latency
+                - 27:27 ASPM L11 Entrance Latency
+                - 28:28 ASPM L1 Entry Control
+                - 29:29 RESERVED
+                - 30:30 RESERVED
+                - 31:31 RESERVED
+
+0x0b-0x0c   : subsystem vendor id (user defined)
+
+0x0d-0x0e   : subsystem id (user defined)
+
+0x0f        : power management capabilities
+                - 0:2 AUX Current
+                    0x00|000 > 0mA
+                    0x01|001 > 55mA
+                    0x02|010 > 100mA
+                    0x03|011 > 160mA
+                    0x04|100 > 220mA
+                    0x05|101 > 270mA
+                    0x06|110 > 320mA
+                    0x07|111 > 375mA
+                - 3:7 PME Support [NOTE: GUI supports only exclusive setting, but eeprom allows to set individual]
+                    0x00|00000 > none
+                    0x01|00001 > D0
+                    0x04|00010 > PME can be signaled from D1 [HIDDEN]
+                    0x04|00100 > PME can be signaled from D2 [HIDDEN]
+                    0x08|01000 > D3 Hot
+                    0x10|10000 > D3 Cold
+
+0x10        : [HIDDEN]
+                - 0:2 RESERVED
+                - 3:3 Immediate Readiness on Return to D0
+                - 4:6 MSI Multiple Message Capable
+                - 7:7 No_Soft_Reset
+ 
+0x11        : [HIDDEN]
+                - 0:2 Endpoint L0s Acceptable Latency
+                    000 > Maximum of 64 ns
+                    001 > Maximum of 128 ns
+                    010 > Maximum of 256 ns
+                    011 > Maximum of 512 ns
+                    100 > Maximum of 1 μs
+                    101 > Maximum of 2 μs
+                    110 > Maximum of 4 μs
+                    111 > No limit
+                - 3:3 RESERVED
+                - 4:6 Endpoint L1 Acceptable Latency
+                    000 > Maximum of 1 μs
+                    001 > Maximum of 2 μs
+                    010 > Maximum of 4 μs
+                    011 > Maximum of 8 μs
+                    100 > Maximum of 16 μs
+                    101 > Maximum of 32 μs
+                    110 > Maximum of 64 μs
+                    111 > No limit
+                - 7:7 RESERVED
+
+0x12        : 
+                - 0:2 L0s Exit Latency [HIDDEN]
+                    000 > Less than 64 ns
+                    001 > 64 ns to less than 128 ns
+                    010 > 128 ns to less than 256 ns
+                    011 > 256 ns to less than 512 ns
+                    100 > 512 ns to less than 1 μs
+                    101 > 1 μs to less than 2 μs
+                    110 > 2 μs to 4 μs
+                    111 > More than 4 μs
+                - 3:3 RESERVED [HIDDEN]
+                - 4:6 L1 Exit Latency [HIDDEN]
+                    000 > Less than 1 μs
+                    001 > 1 μs to less than 2 μs
+                    010 > 2 μs to less than 4 μs
+                    011 > 4 μs to less than 8 μs
+                    100 > 8 μs to less than 16 μs
+                    101 > 16 μs to less than 32 μs
+                    110 > 32 μs to 64 μs
+                    111 > More than 64 μs
+                - 7:7 Clock Power Management
+                    0x0|0 > Disable
+                    0x1|1 > Enable
+
+0x13        : [HIDDEN]
+                - 0:7 RESERVED
+                
+0x14        :
+                - 0:0 Slot Clock Configuration [HIDDEN]
+                - 1:1 LTR Mechanism Support (Advanced)
+                    0x0|0 > Disable
+                    0x1|1 > Enable
+                - 2:3 OBFF Support (Advanced)
+                    0x00|00 > Not Supported
+                    0x01|01 > Supported using message Signaling only
+                    0x08|10 > Supported using WAKE# Signaling only
+                    0x0c|11 > Supported using WAKE# and message signaling
+                - 4:6 MSI-X Table Size [HIDDEN]
+                - 7:7 RESERVED [HIDDEN]
+
+0x15        :
+                - 0:0 PCI-PM L1.2 Support (Advanced)
+                    0x0|0 > Not supported
+                    0x1|1 > Supported
+                - 1:1 PCI-PM L1.1 Support (Advanced)
+                    0x0|0 > Not supported
+                    0x1|1 > Supported
+                - 2:2 ASPM L1.2 (Advanced)
+                    0x0|0 > Not supported
+                    0x1|1 > Supported
+                - 3:3 ASPM L1.1 (Advanced)
+                    0x0|0 > Not supported
+                    0x1|1 > Supported
+                - 4:4 L1 PM Substates Support (Advanced)
+                    0x0|0 > Not supported
+                    0x1|1 > Supported
+                - 5:7 RESERVED
+
+0x16        : Port Common_Mode_Restore_Time [HIDDEN]
+
+0x17        : [HIDDEN]
+                - 0:4 Port T_POWER_ON value
+                - 5:5 RESERVED
+                - 6:7 Port T_POWER_SCALE
+                    00 > 2 μs
+                    01 > 10 μs
+                    10 > 100 μs
+                    11 > Reserved
+
+0x18        :
+                - 0:2 ASPM L0s Entrance Latency (Advanced)
+                    0x00|000 > 1 μs
+                    0x01|001 > 2 μs
+                    0x02|010 > 3 μs
+                    0x03|011 > 4 μs
+                    0x04|100 > 5 μs
+                    0x05|101 > 6 μs
+                    0x06|110 > 7 μs
+                - 3:3 RESERVED [HIDDEN]
+                - 4:6 ASPM L1 Entrance Latency (Advanced)
+                    0x00|000 > 1 μs
+                    0x01|001 > 2 μs
+                    0x02|010 > 4 μs
+                    0x03|011 > 8 μs
+                    0x04|100 > 16 μs
+                    0x05|101 > 32 μs
+                    0x06|110 > 64 μs
+                - 7:7 ASPM L1 Entry Control (Advanced)
+                    0x0|0 > L1 entry from L0s
+                    0x1|1 > L1 entry directly after Idle
+
+0x19        : RESERVED [HIDDEN]
+
+0x1a        : RESERVED [HIDDEN]
+
+0x1b        : MAC Configuration
+                - 0:1 MAC Configuration (Advanced)
+                    0x0|00 > 10 Mbps (MII Mode)
+                    0x1|01 > 100 Mbps (MII Mode)
+                    0x2|10 > 1000 Mbps (RGMII Mode)
+                    0x3|11 > 1000 Mbps (GMII Mode)
+                - 2:2 Duplex Mode (Advanced)
+                    0x0|0 > Half Duplex
+                    0x1|1 > Full Duplex
+                - 3:3 Automatic Speed Detection (Advanced)
+                    0x0|0 > Disable
+                    0x1|1 > Enable
+                - 4:4 Automatic Duplex Detection (Advanced)
+                    0x0|0 > Disable
+                    0x1|1 > Enable
+                - 5:5 Automatic Duplex Polarity (Advanced)
+                    0x0|0 > Asserted Low
+                    0x1|1 > Asserted High
+                - 6:6 Energy Efficient Ethernet TX LPI Automatic Removal Enable [HIDDEN]
+                - 7:7 Energy Efficient Ethernet (Advanced)
+                    0x0|0 > Disable
+                    0x1|1 > Enable
+
+0x1c        :
+                - 0:0 Energy Efficient Ethernet Tx Clock Stop (Advanced)
+                    0x0|0 > Disable
+                    0x1|1 > Enable
+                - 1:1 RGMII RXC Delay Enable [HIDDEN]
+                - 2:2 RGMII TXC Delay Enable [HIDDEN]
+                - 3:3 EEE PHY Link Up Speed Up [HIDDEN]
+                - 4:4 Reference CLK 25 MHz Out Enable [HIDDEN]
+                - 5:5 Generate CLK 125 MHz Enable [HIDDEN]
+                - 6:7 RESERVED [HIDDEN]
+
+
+0x1d        : enable LED 0 [CLARIFY]
+                - 0:0 LED 0 On/Off
+                - 1:1 LED 1 On/Off
+                - 2:2 LED 2 On/Off
+                - 3:3 LED 3 On/Off
+                    0x0|0 > Off ??? (setting this config in the tool doesn't change the value thats currently in the file)
+                    0x1|1 > On
+                - 0:0 LED 0 Invert Polarity
+                - 1:1 LED 1 Invert Polarity
+                - 2:2 LED 2 Invert Polarity
+                - 3:3 LED 3 Invert Polarity
+                    0x0|0 > No invert ??? (setting this config in the tool doesn't change the value thats currently in the file)
+                    0x1|1 > Invert
+
+0x1e-0x1f:
+                - 0:3   LED Control 0
+                - 4:7   LED Control 1
+                - 8:11  LED Control 2
+                - 12:15 LED Control 3
+                    0x0|0000 > Link/Activity
+                    0x1|0001 > Link1000/Activity
+                    0x2|0010 > Link100/Activity
+                    0x3|0011 > Link10/Activity
+                    0x4|0100 > Link100/1000/Activity
+                    0x5|0101 > Link10/1000/Activity
+                    0x6|0110 > Link10/100/Activity
+                    0x7|0111 > ??? Reserved
+                    0x8|1000 > Duplex/Collision
+                    0x9|1001 > Collision
+                    0xa|1010 > Activity
+                    0xb|1011 > ??? Reserved
+                    0xc|1100 > Auto-Negotiation Fault
+                    0xd|1101 > Serial Mode
+                    0xe|1110 > Force LED Off
+                    0xf|1111 > Force LED On
+
+0x20-0x21:
+                - 0:0 LED 0 combine feature
+                - 1:1 LED 1 combine feature
+                - 2:2 LED 2 combine feature
+                - 3:3 LED 3 combine feature
+                    0x0|0 > Enable
+                    0x1|1 > Disable
+                - 4:4 RESERVED [HIDDEN]
+                - 5:5 LED 0 Blink/Pulse-Stretch
+                - 6:6 LED 1 Blink/Pulse-Stretch
+                - 7:7 LED 2 Blink/Pulse-Stretch
+                - 8:8 LED 3 Blink/Pulse-Stretch
+                    0x0|0 > Blink
+                    0x1|1 > Pulse Stretch
+                - 9:9 RESERVED [HIDDEN]
+                - 10:11 LED Blink/Pulse-Stretch Rate
+                    0x0|00 > 2.5-Hz blink rate/400 ms pulse-stretch
+                    0x1|01 > 5-Hz blink rate/200 ms pulse-stretch
+                    0x2|10 > 10-Hz blink rate/100 ms pulse-stretch
+                    0x3|11 > 20-Hz blink rate/50 ms pulse-stretch
+                - 12:12 LED Pulsing Enable
+                    0x0|0 > Normal Operation
+                    0x1|1 > Pulse with a 5-kHz, programmable duty cycle when active
+                - 13:13 RESERVED [HIDDEN]
+                - 14:14 LED Activity Output Select
+                    0x0|0 > Active Low
+                    0x1|1 > Active High
+
+
+
+
+

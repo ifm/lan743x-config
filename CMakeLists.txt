@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(lan7430-config LANGUAGES CXX VERSION 1.0)
+project(lan7430-config LANGUAGES CXX VERSION 1.0.0)
 
 set(_lib lib CACHE STRING "Basename of the library-directory")
 set(_bin bin CACHE STRING "Basename of the bin-directory")
@@ -26,5 +26,12 @@ if(ENABLE_TESTING)
   enable_testing()
   message("Building Tests.")
 endif()
+
+configure_file(
+  ${CMAKE_SOURCE_DIR}/src/include/version.hpp.in
+  ${CMAKE_BINARY_DIR}/generated/version.hpp
+)
+
+include_directories(${CMAKE_BINARY_DIR}/generated)
 
 add_subdirectory(src)

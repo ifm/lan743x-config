@@ -1,13 +1,8 @@
-#include "version.hpp"
-
-
 #include "validators.hpp"
+#include "version.hpp"
 
 #include <lan7430conf/errors.hpp>
 #include <lan7430conf/lan7430conf.hpp>
-
-
-
 
 #include <boost/filesystem.hpp>
 
@@ -56,8 +51,8 @@ int main(int argc, char const* argv[])
     app.fallthrough();
     app.set_config("--config");
     app.add_flag_function("-V,--version",
-        [](int count){std::cout << lan743x::LAN743X_VERSION << "\n";},
-        "Print the version information");
+                          [](int count) { std::cout << lan743x::LAN743X_VERSION << "\n"; },
+                          "Print the version information");
 
     auto printConfigFlag = app.add_flag("--printconfig", "Print an ini file to the console");
 

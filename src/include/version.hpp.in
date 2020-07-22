@@ -11,18 +11,19 @@ See accompanied file licence.txt for license information.
 #ifndef LAN743X_VERSION_HPP
 #define LAN743X_VERSION_HPP
 
-namespace lan743x
-{
+namespace lan743x {
 
 /* compile-time API version detection */
 /* variable expansion comes from CMakeLists.txt -- don't mess with these */
-constexpr std::string_view LAN743X_VERSION_MAJOR {"@lan7430-config_VERSION_MAJOR@"};
-constexpr std::string_view LAN743X_VERSION_MINOR {"@lan7430-config_VERSION_MINOR@"};
-constexpr std::string_view LAN743X_VERSION_PATCH {"@lan7430-config_VERSION_PATCH@"};
+constexpr std::string_view LAN743X_VERSION_MAJOR{ "@lan7430-config_VERSION_MAJOR@" };
+constexpr std::string_view LAN743X_VERSION_MINOR{ "@lan7430-config_VERSION_MINOR@" };
+constexpr std::string_view LAN743X_VERSION_PATCH{ "@lan7430-config_VERSION_PATCH@" };
 
-
-constexpr std::string_view LAN743X_VERSION {"@lan7430-config_VERSION_MAJOR@.@lan7430-config_VERSION_MINOR@.@lan7430-config_VERSION_PATCH@"};
-
+// clang-format off
+constexpr std::string_view LAN743X_VERSION{
+	"@lan7430-config_VERSION_MAJOR@.@lan7430-config_VERSION_MINOR@.@lan7430-config_VERSION_PATCH@"
+};
+// clang-format on
 }
 
-#endif //LAN743X_VERSION_HPP
+#endif  // LAN743X_VERSION_HPP

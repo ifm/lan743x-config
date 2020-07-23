@@ -86,29 +86,43 @@ int main(int argc, char const* argv[])
                                  },
                                  CLI::ignore_case));
 
+    // read/write helpers
+    auto readConfig = [&]() {
+        EEPROM_CONFIG config{};
+        if (*cInputOption)
+        {
+            EEPROM eeprom = readEEPROM(configParams.inputPath);
+            config = eepromConfigToEEPROM(eeprom);
+        }
+        else if (boost::filesystem::exists(configParams.outputPath))
+        {
+            EEPROM eeprom = readEEPROM(configParams.outputPath);
+            config = eepromConfigToEEPROM(eeprom);
+        }
+        return config;
+    };
+    auto writeConfig = [&](const EEPROM_CONFIG& config) {
+        // the user can give us different input/output paths.
+        // we set the inputPath = outputPath here, so following command callbacks
+        // work with the created file from now on...
+        if (*cInputOption)
+        {
+            configParams.inputPath = configParams.outputPath;
+        }
+        writeEEPROM(configParams.outputPath, config);
+    };
+
     configCommand->callback([&]() {
         try
         {
-            EEPROM_CONFIG config{};
-            if (*cInputOption)
-            {
-                EEPROM eeprom = readEEPROM(configParams.inputPath);
-                config = eepromConfigToEEPROM(eeprom);
-            }
+            EEPROM_CONFIG config = readConfig();
 
             if (*cMemoryOption)
             {
                 config.magic = configParams.magic;
             }
 
-            // the user can give us different input/output paths.
-            // we set the inputPath = outputPath here, so following command callbacks
-            // work with the created file from now on...
-            if (*cInputOption)
-            {
-                configParams.inputPath = configParams.outputPath;
-            }
-            writeEEPROM(configParams.outputPath, config);
+            writeConfig(config);
         }
         catch (ifm::error_type e)
         {
@@ -133,12 +147,7 @@ int main(int argc, char const* argv[])
     macCommand->callback([&]() {
         try
         {
-            EEPROM_CONFIG config{};
-            if (*cInputOption)
-            {
-                EEPROM eeprom = readEEPROM(configParams.inputPath);
-                config = eepromConfigToEEPROM(eeprom);
-            }
+            EEPROM_CONFIG config = readConfig();
 
             if (*mMacOption)
             {
@@ -152,14 +161,7 @@ int main(int argc, char const* argv[])
                 config.mac = stringToMac(macParams.macAddress);
             }
 
-            // the user can give us different input/output paths.
-            // we set the inputPath = outputPath here, so following command callbacks
-            // work with the created file from now on...
-            if (*cInputOption)
-            {
-                configParams.inputPath = configParams.outputPath;
-            }
-            writeEEPROM(configParams.outputPath, config);
+            writeConfig(config);
         }
         catch (ifm::error_type e)
         {
@@ -235,12 +237,7 @@ int main(int argc, char const* argv[])
     ledCommand->callback([&]() {
         try
         {
-            EEPROM_CONFIG config{};
-            if (*cInputOption)
-            {
-                EEPROM eeprom = readEEPROM(configParams.inputPath);
-                config = eepromConfigToEEPROM(eeprom);
-            }
+            EEPROM_CONFIG config = readConfig();
 
             assert(ledParams.id >= 0);
             assert(ledParams.id < config.ledConfig.size());
@@ -266,14 +263,7 @@ int main(int argc, char const* argv[])
                 config.ledConfig[ledParams.id].blinkPulseStretch = ledParams.blinkPulseStretch;
             }
 
-            // the user can give us different input/output paths.
-            // we set the inputPath = outputPath here, so following command callbacks
-            // work with the created file from now on...
-            if (*cInputOption)
-            {
-                configParams.inputPath = configParams.outputPath;
-            }
-            writeEEPROM(configParams.outputPath, config);
+            writeConfig(config);
         }
         catch (ifm::error_type e)
         {

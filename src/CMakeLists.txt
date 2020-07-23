@@ -4,7 +4,7 @@ find_package(spdlog QUIET)
 find_package(CLI11 QUIET)
 if(NOT spdlog_FOUND)
     message("using 3rdparty/spdlog")
-    add_compile_definitions(FMT_HEADER_ONLY) # for spdlog bundled fmt
+    add_definitions(-DFMT_HEADER_ONLY) # for spdlog bundled fmt
     add_subdirectory(3rdparty/spdlog)
     add_library(spdlog::spdlog ALIAS spdlog)
 else()

@@ -18,7 +18,7 @@ add_definitions(-DSPDLOG_HEADER_ONLY) # tell spdlog to be used as header only
 add_library( ${PROJECT_NAME} SHARED ${SOURCES} ${HEADERS})
 
 include(GenerateExportHeader)
-set(PROJECT_EXPORT_FILE_NAME lan7430conf/${PROJECT_NAME}_export.h)
+set(PROJECT_EXPORT_FILE_NAME ${CMAKE_CURRENT_BINARY_DIR}/lan7430conf/${PROJECT_NAME}_export.h)
 generate_export_header(${PROJECT_NAME}
     EXPORT_FILE_NAME ${PROJECT_EXPORT_FILE_NAME}
 )

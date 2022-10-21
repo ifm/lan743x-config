@@ -15,6 +15,7 @@
 #include "lan7430conf/lan7430-config-lib_export.h"
 
 #include <array>
+#include <string>
 
 enum class EEPROM_MAGIC
 {

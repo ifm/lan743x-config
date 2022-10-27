@@ -16,9 +16,11 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 add_definitions(-DSPDLOG_HEADER_ONLY) # tell spdlog to be used as header only
 add_library( ${PROJECT_NAME} SHARED ${SOURCES} ${HEADERS})
+
 include(GenerateExportHeader)
+set(PROJECT_EXPORT_FILE_NAME ${CMAKE_CURRENT_BINARY_DIR}/lan7430conf/${PROJECT_NAME}_export.h)
 generate_export_header(${PROJECT_NAME}
-    EXPORT_FILE_NAME lan7430conf/${PROJECT_NAME}_export.h
+    EXPORT_FILE_NAME ${PROJECT_EXPORT_FILE_NAME}
 )
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
@@ -36,6 +38,16 @@ target_include_directories(${PROJECT_NAME}
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
 
+set(PUBLIC_HEADERS
+    ${HEADERS}
+    ${PROJECT_EXPORT_FILE_NAME}
+)
+
+set_target_properties(${PROJECT_NAME}
+    PROPERTIES
+    PUBLIC_HEADER "${PUBLIC_HEADERS}"
+)
+
 #------------------
 # Tests
 #------------------
@@ -43,13 +55,18 @@ if(ENABLE_TESTING)
   add_subdirectory(test)
 endif()
 
+set(PROJECT_CMAKE_CONFIG_FILE_NAME "${PROJECT_NAME}Config.cmake")
+set(PROJECT_CMAKE_EXPORT_NAME "${PROJECT_NAME}Config")
+
+export(TARGETS ${PROJECT_NAME}
+    NAMESPACE Lan7430conf::
+    FILE ${PROJECT_CMAKE_CONFIG_FILE_NAME}
+)
+
 install(TARGETS ${PROJECT_NAME}
-    EXPORT ${PROJECT_NAME}
+    EXPORT ${PROJECT_CMAKE_EXPORT_NAME}
     RUNTIME DESTINATION ${_bin}
     LIBRARY DESTINATION ${_lib}
     ARCHIVE DESTINATION ${_lib}
     PUBLIC_HEADER DESTINATION ${_include}/lan7430conf
-)
-install(FILES
-    ${PROJECT_BINARY_DIR}/lan7430conf/${PROJECT_NAME}_export.h DESTINATION ${_include}/lan7430conf
 )

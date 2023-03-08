@@ -1,4 +1,4 @@
-project(lan7430-config-lib LANGUAGES CXX VERSION 0.0.1)
+project(lan7430-config-lib LANGUAGES CXX VERSION 1.1.0)
 
 set(HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lan7430conf/lan7430conf.hpp
@@ -46,6 +46,8 @@ set(PUBLIC_HEADERS
 set_target_properties(${PROJECT_NAME}
     PROPERTIES
     PUBLIC_HEADER "${PUBLIC_HEADERS}"
+    VERSION ${PROJECT_VERSION}
+    SOVERSION ${PROJECT_VERSION_MAJOR}
 )
 
 #------------------

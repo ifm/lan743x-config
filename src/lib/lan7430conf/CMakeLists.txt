@@ -72,3 +72,8 @@ install(TARGETS ${PROJECT_NAME}
     ARCHIVE DESTINATION ${_lib}
     PUBLIC_HEADER DESTINATION ${_include}/lan7430conf
 )
+
+install(EXPORT ${PROJECT_CMAKE_EXPORT_NAME}
+       DESTINATION "${_lib}/cmake/${PROJECT_NAME}"
+       NAMESPACE lan7430conf::
+)

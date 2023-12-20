@@ -16,6 +16,14 @@ set(TEST_FILES
     files/00-02-01-23-10-56-pad.bin
     files/00-02-01-23-10-57-pad.bin
     files/00-02-01-23-10-58-pad.bin
+    files/00-80-0F-74-30-01-default.bin
+    files/00-80-0F-74-30-01-default_DevId.bin
+    files/00-80-0F-74-30-01-default_DevId_OTP.bin
+    files/00-80-0F-74-30-01-default_MAC.bin
+    files/00-80-0F-74-30-01-L1_substates_all_on.bin
+    files/00-80-0F-74-30-01-L1_substates_off.bin
+    files/00-80-0F-74-30-01-L1_substates_on.bin
+    files/00-80-0F-74-30-01-random.bin
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

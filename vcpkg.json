@@ -1,0 +1,16 @@
+{
+  "dependencies": [
+    "boost-filesystem",
+    "boost-system",
+    "catch2",
+    "cli11",
+    "spdlog",
+    "boost-endian"
+  ],
+  "overrides": [
+    {
+      "name": "catch2",
+      "version": "2.13.9"
+    }
+  ]
+}

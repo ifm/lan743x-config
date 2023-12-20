@@ -1,0 +1,54 @@
+name: C/C++ CI
+
+on:
+  push:
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Get CMake
+        uses: lukka/get-cmake@latest
+
+      - name: vcpkg build
+        uses: johnwason/vcpkg-action@v5
+        with:
+          manifest-dir: ${{ github.workspace }} # Set to directory containing vcpkg.json
+          triplet: x64-linux
+          token: ${{ github.token }}
+
+      - name: Run CMake configure
+        run: |
+          cmake -DCMAKE_BUILD_TYPE=Release -H. -B${{ github.workspace }}/build -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/vcpkg/scripts/buildsystems/vcpkg.cmake
+
+      - name: Run CMake build
+        run: |
+          cmake --build ${{ github.workspace }}/build
+
+      - name: Cache build
+        uses: actions/cache@v3
+        with:
+          path: build
+          key: ${{ runner.os }}-build
+
+  tests:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Restore build cache
+        uses: actions/cache/restore@v3
+        with:
+          path: build
+          key: ${{ runner.os }}-build
+
+      - name: Run ctest
+        run: |
+          cd build
+          ctest -V --output-on-failure

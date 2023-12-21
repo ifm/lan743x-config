@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(lan7430-config LANGUAGES CXX VERSION 1.1.1)
+project(lan7430-config LANGUAGES CXX VERSION 1.2.0)
 
 set(_lib lib CACHE STRING "Basename of the library-directory")
 set(_bin bin CACHE STRING "Basename of the bin-directory")

@@ -3,28 +3,35 @@
 The LAN7430 has the possibility to read its MAC address from a EEPROM. To achieve this the EEPROM content needs to be generated and written to the EEPROM.
 
 # Build
-To build the CLI tool and the library, you need a compiler that supports C++17
+To build the CLI tool and the library, you need a compiler that supports C++17. Prefer [vcpkg](https://vcpkg.io/en/) to install the dependencies.
 ## Dependencies
 CLI tool:
-* boost-system > 1.58.0 (system)
-* boost-filesystem > 1.58.0 (system)
 * spdlog (system/3rdparty)
 * cli11 (system/3rdparty)
 
 Library:
-* boost-system > 1.58.0 (system)
-* boost-filesystem > 1.58.0 (system)
 * spdlog (system/3rdparty)
 
 Tests:
-* boost-system > 1.58.0 (system)
-* boost-filesystem > 1.58.0 (system)
 * catch2 (3rdparty)
 * spdlog (system/3rdparty)
 
+## Build
+
+There are several ways to build the project. The easiest way is to use the provided CMakePresets.json with [vcpgk](https://vcpkg.io/en/).
+
+```sh
+# Make sure that vcpkg is installed and the environment variable VCPKG_ROOT is set
+echo $VCPKG_ROOT
+
+cmake --preset release
+cmake --build build
 ```
-mkdir build
-cmake -DCMAKE_BUILD_TYPE=Release -H. -Bbuild
+
+If you want to build the project without vcpkg, you need to install the dependencies manually or use the provided 3dparty folder.
+
+```sh
+cmake -Bbuild -DCMAKE_BUILD_TYPE=Release -H.
 cmake --build build
 ```
 
@@ -157,3 +164,5 @@ There seems to be no checksum to verify the EEPROM content the only difference b
  00000020  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
  *
 ```
+# Development
+We recommend to use the [devcontainer](https://code.visualstudio.com/docs/devcontainers/containers) to have a consistent development environment. Otherwise you need to install the dependencies manually (see [Dependencies](#dependencies) / [Build](#build-1)).

@@ -8,6 +8,14 @@
     {
       "name": "catch2",
       "version": "2.13.9"
+    },
+    {
+      "name": "cli11",
+      "version": "1.8.0"
+    },
+    {
+      "name": "spdlog",
+      "version": "1.12.0"
     }
   ]
 }

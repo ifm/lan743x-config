@@ -7,7 +7,7 @@ See accompanied file licence.txt for license information.
 #ifndef VALIDATORS_HPP
 #define VALIDATORS_HPP
 
-#include <boost/filesystem.hpp>
+#include <filesystem>
 
 #if __has_include(<cli11/CLI11.hpp>)
 #include <cli11/CLI11.hpp>
@@ -28,8 +28,8 @@ public:
     : Validator("DIR")
     {
         func_ = [](std::string& filePath) {
-            boost::filesystem::path path(filePath);
-            if (path.has_parent_path() && !boost::filesystem::exists(path.remove_filename()))
+            std::filesystem::path path(filePath);
+            if (path.has_parent_path() && !std::filesystem::exists(path.remove_filename()))
             {
                 return "Path does not exist: " + path.remove_filename().string();
             }

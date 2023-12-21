@@ -24,7 +24,6 @@ generate_export_header(${PROJECT_NAME}
 )
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
-        ${Boost_LIBRARIES}
         spdlog::spdlog
 )
 

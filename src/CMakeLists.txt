@@ -1,4 +1,3 @@
-find_package(Boost 1.58.0 COMPONENTS system filesystem REQUIRED)
 add_subdirectory(3rdparty/catch2)
 find_package(spdlog QUIET)
 find_package(CLI11 QUIET)
@@ -41,7 +40,6 @@ target_include_directories(${PROJECT_NAME}
 target_link_libraries(
     ${PROJECT_NAME}
     PRIVATE
-        ${Boost_LIBRARIES}
         spdlog::spdlog
         CLI11::CLI11
         lan7430-config-lib

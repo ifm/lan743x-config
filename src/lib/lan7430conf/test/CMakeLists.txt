@@ -28,7 +28,6 @@ set(TEST_FILES
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME}
-    ${Boost_LIBRARIES}
     spdlog::spdlog
     catch2
     lan7430-config-lib

@@ -14,7 +14,7 @@
 
 #include <catch2/catch.hpp>
 
-#include <boost/filesystem.hpp>
+#include <filesystem>
 
 #include <fstream>
 #include <iomanip>
@@ -95,7 +95,7 @@ TEST_CASE("compareAgainstFiles", "[WriteEEPROM]")
     for (const auto& [macString, eepromFilePath] : macStrings)
     {
         std::string tempFilePath
-            = boost::filesystem::temp_directory_path().append(macString + ".bin").string();
+            = std::filesystem::temp_directory_path().append(macString + ".bin").string();
         // std::string tempFilePath = "./" + macString + ".bin";
 
         EEPROM_CONFIG config;
@@ -134,7 +134,7 @@ TEST_CASE("testWriteDefaultFiles", "[WriteEEPROM]")
 {
     for (const auto& [eepromFilePath, eepromConfig] : gs_testFilesVector)
     {
-        std::string tempFilePath = boost::filesystem::temp_directory_path()
+        std::string tempFilePath = std::filesystem::temp_directory_path()
                                        .append(macToString(eepromConfig.mac) + ".bin")
                                        .string();
         // std::string tempFilePath = "./" + macToString(eepromConfig.mac) + ".bin";
@@ -142,9 +142,9 @@ TEST_CASE("testWriteDefaultFiles", "[WriteEEPROM]")
         REQUIRE_NOTHROW(writeEEPROM(tempFilePath, eepromConfig));
 
         // compare the contents of the "files"
-        std::ifstream file_orig(boost::filesystem::absolute(eepromFilePath).string(),
+        std::ifstream file_orig(std::filesystem::absolute(eepromFilePath).string(),
                                 std::ifstream::binary | std::ifstream::ate);
-        std::ifstream file_new(boost::filesystem::absolute(tempFilePath).string(),
+        std::ifstream file_new(std::filesystem::absolute(tempFilePath).string(),
                                std::ifstream::binary | std::ifstream::ate);
         std::array<unsigned char, eeprom_user_defined_size> file_content_orig{};
         std::array<unsigned char, eeprom_user_defined_size> file_content_new{};

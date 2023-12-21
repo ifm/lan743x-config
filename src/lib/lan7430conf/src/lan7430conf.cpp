@@ -14,8 +14,8 @@
 
 #include <spdlog/spdlog.h>
 
-#include <boost/endian/conversion.hpp>
-#include <boost/filesystem.hpp>
+#include <endian.h>
+#include <filesystem>
 
 #include <cstring>
 #include <fstream>
@@ -135,13 +135,13 @@ EEPROM_CONFIG eepromConfigToEEPROM(EEPROM eeprom) noexcept(false)
     config.ledConfig[3].enable = getBit<bool>(eeprom.ledConfig1, 3);
     config.ledConfig[3].polarity = getBit<LED_POLARITY>(eeprom.ledConfig1, 7);
 
-    eeprom.ledConfig2 = boost::endian::big_to_native(eeprom.ledConfig2);
+    eeprom.ledConfig2 = be16toh(eeprom.ledConfig2);
     config.ledConfig[0].control = getBitmask<LED_CONTROL>(eeprom.ledConfig2, 0, 3);
     config.ledConfig[1].control = getBitmask<LED_CONTROL>(eeprom.ledConfig2, 4, 7);
     config.ledConfig[2].control = getBitmask<LED_CONTROL>(eeprom.ledConfig2, 8, 11);
     config.ledConfig[3].control = getBitmask<LED_CONTROL>(eeprom.ledConfig2, 12, 15);
 
-    eeprom.ledConfig3 = boost::endian::big_to_native(eeprom.ledConfig3);
+    eeprom.ledConfig3 = be16toh(eeprom.ledConfig3);
     config.ledConfig[0].combineFeature = getBit<LED_COMBINE>(eeprom.ledConfig3, 0);
     config.ledConfig[1].combineFeature = getBit<LED_COMBINE>(eeprom.ledConfig3, 1);
     config.ledConfig[2].combineFeature = getBit<LED_COMBINE>(eeprom.ledConfig3, 2);
@@ -243,7 +243,7 @@ EEPROM createEEPROM(const EEPROM_CONFIG& conf) noexcept(false)
     setBitmask<Byte16>(eeprom.ledConfig2, 8, 11, static_cast<Byte>(conf.ledConfig[2].control));
     setBitmask<Byte16>(eeprom.ledConfig2, 12, 15, static_cast<Byte>(conf.ledConfig[3].control));
 
-    eeprom.ledConfig2 = boost::endian::native_to_big(eeprom.ledConfig2);
+    eeprom.ledConfig2 = be16toh(eeprom.ledConfig2);
 
     setBit<Byte16>(eeprom.ledConfig3, 0, static_cast<Byte>(conf.ledConfig[0].combineFeature));
     setBit<Byte16>(eeprom.ledConfig3, 1, static_cast<Byte>(conf.ledConfig[1].combineFeature));
@@ -259,7 +259,7 @@ EEPROM createEEPROM(const EEPROM_CONFIG& conf) noexcept(false)
     setBit<Byte16>(eeprom.ledConfig3, 12, static_cast<Byte16>(conf.ledPulsing));
     setBit<Byte16>(eeprom.ledConfig3, 14, static_cast<Byte16>(conf.ledActivityOutput));
 
-    eeprom.ledConfig3 = boost::endian::native_to_big(eeprom.ledConfig3);
+    eeprom.ledConfig3 = be16toh(eeprom.ledConfig3);
 
     std::copy(std::begin(base_eeprom) + eeprom_user_defined_size,
               std::end(base_eeprom),
@@ -272,8 +272,8 @@ void writeEEPROM(const std::string& filePath, const EEPROM_CONFIG& config) noexc
 {
     EEPROM eeprom = createEEPROM(config);
 
-    boost::filesystem::path path(filePath);
-    if (path.has_parent_path() && !boost::filesystem::exists(path.remove_filename()))
+    std::filesystem::path path(filePath);
+    if (path.has_parent_path() && !std::filesystem::exists(path.remove_filename()))
     {
         throw ifm::error_type(ifm::FOLDER_PATH_DOESNT_EXIST);
     }
@@ -294,13 +294,13 @@ void writeEEPROM(const std::string& filePath, const EEPROM_CONFIG& config) noexc
 
 EEPROM readEEPROM(const std::string& filePath) noexcept(false)
 {
-    if (filePath.empty() || !boost::filesystem::exists(filePath))
+    if (filePath.empty() || !std::filesystem::exists(filePath))
     {
         throw ifm::error_type(ifm::FILE_PATH_DOESNT_EXIST);
     }
 
-    if (boost::filesystem::file_size(filePath) != 255
-        && boost::filesystem::file_size(filePath)
+    if (std::filesystem::file_size(filePath) != 255
+        && std::filesystem::file_size(filePath)
                != 512)  // NOTE(MA): the gui (MPLAB Connect) seems to create only files of size
                         // 255... even if specified to use 512
     {

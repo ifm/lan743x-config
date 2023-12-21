@@ -1,11 +1,8 @@
 {
   "dependencies": [
-    "boost-filesystem",
-    "boost-system",
     "catch2",
     "cli11",
-    "spdlog",
-    "boost-endian"
+    "spdlog"
   ],
   "overrides": [
     {

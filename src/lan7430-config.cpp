@@ -4,7 +4,7 @@
 #include <lan7430conf/errors.hpp>
 #include <lan7430conf/lan7430conf.hpp>
 
-#include <boost/filesystem.hpp>
+#include <filesystem>
 
 #if __has_include(<cli11/CLI11.hpp>)
 #include <cli11/CLI11.hpp>
@@ -94,7 +94,7 @@ int main(int argc, char const* argv[])
             EEPROM eeprom = readEEPROM(configParams.inputPath);
             config = eepromConfigToEEPROM(eeprom);
         }
-        else if (boost::filesystem::exists(configParams.outputPath))
+        else if (std::filesystem::exists(configParams.outputPath))
         {
             EEPROM eeprom = readEEPROM(configParams.outputPath);
             config = eepromConfigToEEPROM(eeprom);
